@@ -110,9 +110,9 @@ def output_image(name, format, bytes):
     data['bytes'] = base64.encodestring(bytes)
     print(image_start+json.dumps(data)+image_end)
 
-#%%   
+#%%
+from sklearn.naive_bayes import GaussianNB
 def classify(features_train, labels_train):   
-    from sklearn.naive_bayes import GaussianNB
     clf = GaussianNB()
     return clf.fit(features_train, labels_train)
 
@@ -133,3 +133,7 @@ clf = classify(features_train, labels_train)
 #%% draw the decision boundary with the text points overlaid
 prettyPicture(clf, features_test, labels_test)
 output_image("test.png", "png", open("test.png", "rb").read())
+
+#%% Test accuracy of prediction model
+prediction = clf.predict(features_test)
+print("The accuracy score is {}.".format(clf.score(features_test,labels_test)))
